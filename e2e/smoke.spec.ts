@@ -19,9 +19,9 @@ test.describe('Smoke Tests', () => {
     await page.goto('/');
 
     await expect(page.getByRole('heading', { name: /How It Works/i })).toBeVisible();
-    await expect(page.getByText(/Input Predictions/i)).toBeVisible();
-    await expect(page.getByText(/Smart Reconciliation/i)).toBeVisible();
-    await expect(page.getByText(/Confidence Scores/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Input Predictions/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Smart Reconciliation/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Confidence Scores/i })).toBeVisible();
   });
 
   test('can navigate from homepage to dashboard', async ({ page }) => {
@@ -37,8 +37,10 @@ test.describe('Smoke Tests', () => {
   test('dashboard loads', async ({ page }) => {
     await page.goto('/dashboard');
 
-    // Should show empty state or predictions
-    await expect(page.getByText(/No predictions yet|Unified Fertile Window/i)).toBeVisible({
+    // Should show empty state or predictions - use first() to handle multiple matches
+    await expect(
+      page.getByRole('heading', { name: /No predictions yet|Unified Fertile Window/i }).first()
+    ).toBeVisible({
       timeout: 10000,
     });
   });
