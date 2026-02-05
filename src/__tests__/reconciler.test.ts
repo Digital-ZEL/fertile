@@ -4,12 +4,11 @@
  * Comprehensive tests for the prediction reconciliation algorithm.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   reconcile,
   DEFAULT_WEIGHTS,
   type SourceWeights,
-  type ReconciledPrediction,
 } from '../lib/reconciler';
 import type { Prediction, PredictionSource, ISODateString } from '@/types';
 

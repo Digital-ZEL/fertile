@@ -223,7 +223,6 @@ export function assessPredictionQuality(
   }
 
   // Assess observation data
-  const obsCount = input.observations?.length || 0;
   const cmObs =
     input.observations?.filter((o) => o.type === 'cervical-mucus').length || 0;
   const opkObs = input.observations?.filter((o) => o.type === 'opk').length || 0;

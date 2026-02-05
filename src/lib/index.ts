@@ -33,5 +33,5 @@ export {
 export { FertileDB } from './db';
 
 // FF Import
-export { parseFFExport, transformToObservations } from './ff-import';
+export { parseFFCSV as parseFFExport, convertToObservations as transformToObservations } from './ff-import';
 export type { FFRawObservation, ImportResult, ImportError, ImportWarning } from './types';
