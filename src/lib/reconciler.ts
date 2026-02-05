@@ -27,16 +27,16 @@ export interface SourceWeights {
 export const DEFAULT_WEIGHTS: SourceWeights = {
   // Algorithm-based (most accurate when calibrated)
   'natural-cycles': 0.95,
-  'fertility-friend': 0.90,
+  'fertility-friend': 0.9,
   'fertile-algorithm': 0.85,
 
   // App predictions (decent but variable)
-  flo: 0.70,
-  clue: 0.70,
+  flo: 0.7,
+  clue: 0.7,
   ovia: 0.65,
 
   // Manual/calendar (least accurate alone)
-  manual: 0.60,
+  manual: 0.6,
   calendar: 0.55,
   symptoms: 0.75,
 };
@@ -161,10 +161,7 @@ function calculateSourceAgreement(predictions: Prediction[]): number {
 /**
  * Identify outlier predictions that disagree significantly
  */
-function identifyOutliers(
-  predictions: Prediction[],
-  weights: SourceWeights
-): PredictionSource[] {
+function identifyOutliers(predictions: Prediction[], weights: SourceWeights): PredictionSource[] {
   if (predictions.length <= 2) return [];
 
   // Calculate weighted centroid
@@ -205,10 +202,7 @@ function identifyOutliers(
 /**
  * Build day-by-day probability scores across all predictions
  */
-function buildDayScores(
-  predictions: Prediction[],
-  weights: SourceWeights
-): DayScore[] {
+function buildDayScores(predictions: Prediction[], weights: SourceWeights): DayScore[] {
   if (predictions.length === 0) return [];
 
   // Find global date range
@@ -252,10 +246,7 @@ function buildDayScores(
         sources.push(p.source);
       } else {
         // Decay score for dates outside window (gaussian decay)
-        const daysOutside = Math.min(
-          daysBetween(date, start),
-          daysBetween(date, end)
-        );
+        const daysOutside = Math.min(daysBetween(date, start), daysBetween(date, end));
         const decayScore = weight * sourceConfidence * Math.exp(-Math.pow(daysOutside, 2) / 2);
         if (decayScore > 0.1) {
           rawScores.push({
@@ -267,14 +258,9 @@ function buildDayScores(
     }
 
     // Calculate weighted probability
-    const totalWeight = predictions.reduce(
-      (sum, p) => sum + getWeight(p.source, weights),
-      0
-    );
+    const totalWeight = predictions.reduce((sum, p) => sum + getWeight(p.source, weights), 0);
     const probability =
-      totalWeight > 0
-        ? rawScores.reduce((sum, s) => sum + s.score, 0) / totalWeight
-        : 0;
+      totalWeight > 0 ? rawScores.reduce((sum, s) => sum + s.score, 0) / totalWeight : 0;
 
     dayScores.push({
       date: dateStr,
@@ -368,9 +354,7 @@ function generateExplanations(
   if (sourceCount === 1) {
     explanations.push(`Based on ${predictions[0].source} prediction only`);
   } else {
-    explanations.push(
-      `Reconciled from ${sourceCount} predictions (${uniqueSources.join(', ')})`
-    );
+    explanations.push(`Reconciled from ${sourceCount} predictions (${uniqueSources.join(', ')})`);
   }
 
   // Agreement level
@@ -429,9 +413,7 @@ export function reconcile(
   }
 
   // Filter out predictions with zero confidence
-  const validPredictions = predictions.filter(
-    (p) => (p.confidence ?? 50) > 0
-  );
+  const validPredictions = predictions.filter((p) => (p.confidence ?? 50) > 0);
 
   if (validPredictions.length === 0) {
     return null;

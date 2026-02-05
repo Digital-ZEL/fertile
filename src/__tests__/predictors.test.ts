@@ -5,10 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import {
-  predictFromCalendar,
-  predictMultipleCycles,
-} from '../lib/predictors/calendar';
+import { predictFromCalendar, predictMultipleCycles } from '../lib/predictors/calendar';
 import { predictFromSymptoms, detectBBTShift } from '../lib/predictors/symptoms';
 import { predictCombined, assessPredictionQuality } from '../lib/predictors/combined';
 import type {
@@ -21,11 +18,7 @@ import type {
 } from '@/types';
 
 // Helper to create cycles
-function createCycle(
-  startDate: ISODateString,
-  length: number,
-  periodLength: number = 5
-): Cycle {
+function createCycle(startDate: ISODateString, length: number, periodLength: number = 5): Cycle {
   return {
     id: crypto.randomUUID(),
     startDate,
@@ -52,10 +45,7 @@ function createCMObservation(
 }
 
 // Helper to create OPK observation
-function createOPKObservation(
-  date: ISODateString,
-  value: OPKObservation['value']
-): OPKObservation {
+function createOPKObservation(date: ISODateString, value: OPKObservation['value']): OPKObservation {
   return {
     id: crypto.randomUUID(),
     date,
@@ -67,10 +57,7 @@ function createOPKObservation(
 }
 
 // Helper to create BBT observation
-function createBBTObservation(
-  date: ISODateString,
-  value: number
-): BBTObservation {
+function createBBTObservation(date: ISODateString, value: number): BBTObservation {
   return {
     id: crypto.randomUUID(),
     date,
@@ -120,9 +107,7 @@ describe('Calendar Predictor', () => {
     });
 
     it('should have higher confidence with more historical data', () => {
-      const fewCycles = predictFromCalendar('2025-02-01', [
-        createCycle('2025-01-01', 28),
-      ]);
+      const fewCycles = predictFromCalendar('2025-02-01', [createCycle('2025-01-01', 28)]);
 
       const manyCycles = predictFromCalendar('2025-02-01', [
         createCycle('2025-01-01', 28),
@@ -221,9 +206,7 @@ describe('Symptom Predictor', () => {
     });
 
     it('should have high confidence with OPK data', () => {
-      const observations: Observation[] = [
-        createOPKObservation('2025-02-12', 'positive'),
-      ];
+      const observations: Observation[] = [createOPKObservation('2025-02-12', 'positive')];
 
       const result = predictFromSymptoms(observations);
 
@@ -339,9 +322,7 @@ describe('Symptom Predictor', () => {
     });
 
     it('should handle observations with missing data', () => {
-      const observations: Observation[] = [
-        createCMObservation('2025-02-10', 'egg-white'),
-      ];
+      const observations: Observation[] = [createCMObservation('2025-02-10', 'egg-white')];
 
       const result = predictFromSymptoms(observations);
 
@@ -356,10 +337,7 @@ describe('Combined Predictor', () => {
     it('should combine calendar and symptom predictions', () => {
       const input = {
         currentCycleStart: '2025-02-01',
-        historicalCycles: [
-          createCycle('2025-01-01', 28),
-          createCycle('2024-12-01', 28),
-        ],
+        historicalCycles: [createCycle('2025-01-01', 28), createCycle('2024-12-01', 28)],
         observations: [
           createCMObservation('2025-02-10', 'watery'),
           createCMObservation('2025-02-11', 'egg-white'),
@@ -481,9 +459,7 @@ describe('Combined Predictor', () => {
 
       const quality = assessPredictionQuality(input);
 
-      const positiveFactors = quality.factors.filter(
-        (f) => f.impact === 'positive'
-      );
+      const positiveFactors = quality.factors.filter((f) => f.impact === 'positive');
       expect(positiveFactors.length).toBeGreaterThan(0);
     });
 
@@ -499,9 +475,7 @@ describe('Combined Predictor', () => {
 
       const quality = assessPredictionQuality(input);
 
-      const negativeFactors = quality.factors.filter(
-        (f) => f.impact === 'negative'
-      );
+      const negativeFactors = quality.factors.filter((f) => f.impact === 'negative');
       expect(negativeFactors.length).toBeGreaterThan(0);
     });
   });

@@ -210,10 +210,7 @@ export default function ComparePage() {
             <div className="w-28 flex-shrink-0" />
             <div className="flex flex-1 gap-px">
               {timeline.map((day) => (
-                <div
-                  key={day.date}
-                  className="flex-1 text-center text-xs text-gray-500"
-                >
+                <div key={day.date} className="flex-1 text-center text-xs text-gray-500">
                   {formatDisplayDate(day.date)}
                 </div>
               ))}
@@ -231,7 +228,7 @@ export default function ComparePage() {
                   key={day.date}
                   className={`flex h-8 flex-1 items-center justify-center rounded text-xs ${
                     day.isConsensusOvulation
-                      ? 'bg-pink-600 text-white font-bold'
+                      ? 'bg-pink-600 font-bold text-white'
                       : day.isConsensus
                         ? 'bg-pink-200'
                         : 'bg-gray-100'
@@ -246,7 +243,7 @@ export default function ComparePage() {
           {/* Source rows */}
           {sources.map((source, sourceIndex) => (
             <div key={source} className="mb-1 flex items-center">
-              <div className="w-28 flex-shrink-0 truncate pr-2 text-right text-sm text-gray-600 capitalize">
+              <div className="w-28 flex-shrink-0 truncate pr-2 text-right text-sm capitalize text-gray-600">
                 {source.replace(/-/g, ' ')}
               </div>
               <div className="flex flex-1 gap-px">
@@ -262,11 +259,7 @@ export default function ComparePage() {
                     <div
                       key={day.date}
                       className={`flex h-8 flex-1 items-center justify-center rounded text-xs ${
-                        isOvulation
-                          ? 'text-white font-bold'
-                          : isFertile
-                            ? ''
-                            : 'bg-gray-50'
+                        isOvulation ? 'font-bold text-white' : isFertile ? '' : 'bg-gray-50'
                       } ${
                         !isFertile && !day.isConsensus
                           ? '' // Both say not fertile - OK
@@ -295,8 +288,8 @@ export default function ComparePage() {
 
         {/* Disagreement legend */}
         <div className="mt-4 text-xs text-gray-500">
-          <span className="inline-block h-4 w-4 rounded ring-2 ring-inset ring-orange-300" /> = Source
-          disagrees with consensus
+          <span className="inline-block h-4 w-4 rounded ring-2 ring-inset ring-orange-300" /> =
+          Source disagrees with consensus
         </div>
       </div>
 
@@ -343,7 +336,8 @@ export default function ComparePage() {
                   {formatDisplayDate(prediction.fertileStart)}
                   {startDiff > 0 && (
                     <span className="ml-1 text-xs text-gray-400">
-                      ({startDiff > 0 ? '+' : ''}{startDiff}d)
+                      ({startDiff > 0 ? '+' : ''}
+                      {startDiff}d)
                     </span>
                   )}
                 </span>
@@ -354,7 +348,8 @@ export default function ComparePage() {
                   {formatDisplayDate(prediction.fertileEnd)}
                   {endDiff > 0 && (
                     <span className="ml-1 text-xs text-gray-400">
-                      ({endDiff > 0 ? '+' : ''}{endDiff}d)
+                      ({endDiff > 0 ? '+' : ''}
+                      {endDiff}d)
                     </span>
                   )}
                 </span>

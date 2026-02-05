@@ -14,6 +14,7 @@ First public release of Fertile — Unified Fertility Intelligence.
 ### Added
 
 #### Core Features
+
 - **Unified Fertility Dashboard** — Single view of all fertility predictions with confidence scoring
 - **Multi-Source Import** — Support for Flo, Clue, Natural Cycles, Glow, and Ovia CSV formats
 - **Manual Entry** — Add predictions from any app manually
@@ -22,12 +23,14 @@ First public release of Fertile — Unified Fertility Intelligence.
 - **Confidence Meter** — Visual indicator of prediction agreement (0-100%)
 
 #### Technical Foundation
+
 - **Local-Only Storage** — All data stored in IndexedDB, never leaves device
 - **Type-Safe** — Full TypeScript implementation
 - **Responsive Design** — Mobile-first with Tailwind CSS
 - **App Router** — Next.js 14 with modern routing
 
 #### Pages
+
 - `/` — Landing page with feature overview
 - `/dashboard` — Main unified fertility dashboard
 - `/import` — CSV and manual data import
@@ -37,18 +40,21 @@ First public release of Fertile — Unified Fertility Intelligence.
 - `/settings` — App preferences
 
 #### Components
+
 - `Header` — Navigation with mobile menu
 - `Footer` — Disclaimer and copyright
 - `Calendar` — Interactive cycle calendar
 - `ConfidenceMeter` — Visual confidence display
 
 #### Data Layer
+
 - IndexedDB schema for cycles, predictions, and observations
 - CSV parsers for major fertility apps
 - Unified window calculation algorithm
 - Cycle phase detection (menstrual, follicular, fertile, ovulation, luteal)
 
 #### Documentation
+
 - `README.md` — Full project documentation
 - `docs/PRIVACY.md` — Privacy policy and data handling
 - `docs/PRD.md` — Product requirements
@@ -56,11 +62,13 @@ First public release of Fertile — Unified Fertility Intelligence.
 - `docs/COMPETITORS.md` — Market analysis
 
 ### Security
+
 - No external API calls with user data
 - No analytics or tracking
 - Security headers configured (X-Frame-Options, X-XSS-Protection, X-Content-Type-Options)
 
 ### Notes
+
 - This is a calendar-method tool only
 - Not intended as medical advice
 - Not a replacement for professional fertility consultation
@@ -70,6 +78,7 @@ First public release of Fertile — Unified Fertility Intelligence.
 ## [Unreleased]
 
 ### Planned
+
 - PWA support with offline-first architecture
 - BBT (Basal Body Temperature) tracking
 - LH test result logging

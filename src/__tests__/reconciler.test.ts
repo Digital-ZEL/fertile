@@ -5,11 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import {
-  reconcile,
-  DEFAULT_WEIGHTS,
-  type SourceWeights,
-} from '../lib/reconciler';
+import { reconcile, DEFAULT_WEIGHTS, type SourceWeights } from '../lib/reconciler';
 import type { Prediction, PredictionSource, ISODateString } from '@/types';
 
 // Helper to create predictions
@@ -40,9 +36,7 @@ function formatDate(date: Date): string {
 describe('Reconciler Engine', () => {
   describe('Basic Reconciliation', () => {
     it('should handle a single prediction', () => {
-      const predictions = [
-        createPrediction('flo', '2025-02-10', '2025-02-15', 70),
-      ];
+      const predictions = [createPrediction('flo', '2025-02-10', '2025-02-15', 70)];
 
       const result = reconcile(predictions);
 
@@ -62,9 +56,7 @@ describe('Reconciler Engine', () => {
     });
 
     it('should return null when below minSources', () => {
-      const predictions = [
-        createPrediction('flo', '2025-02-10', '2025-02-15', 70),
-      ];
+      const predictions = [createPrediction('flo', '2025-02-10', '2025-02-15', 70)];
 
       const result = reconcile(predictions, { minSources: 2 });
       expect(result).toBeNull();
@@ -224,10 +216,8 @@ describe('Reconciler Engine', () => {
       expect(result).not.toBeNull();
       // Result should lean toward fertility-friend dates
       const midpoint = (result!.fertileStart.getTime() + result!.fertileEnd.getTime()) / 2;
-      const ffMidpoint =
-        (new Date('2025-02-12').getTime() + new Date('2025-02-17').getTime()) / 2;
-      const floMidpoint =
-        (new Date('2025-02-05').getTime() + new Date('2025-02-10').getTime()) / 2;
+      const ffMidpoint = (new Date('2025-02-12').getTime() + new Date('2025-02-17').getTime()) / 2;
+      const floMidpoint = (new Date('2025-02-05').getTime() + new Date('2025-02-10').getTime()) / 2;
 
       const distToFF = Math.abs(midpoint - ffMidpoint);
       const distToFlo = Math.abs(midpoint - floMidpoint);
@@ -255,9 +245,7 @@ describe('Reconciler Engine', () => {
     });
 
     it('should use default weights for unknown sources', () => {
-      const predictions = [
-        createPrediction('flo', '2025-02-10', '2025-02-15', 70),
-      ];
+      const predictions = [createPrediction('flo', '2025-02-10', '2025-02-15', 70)];
 
       const result = reconcile(predictions);
 
@@ -305,9 +293,7 @@ describe('Reconciler Engine', () => {
 
       expect(result).not.toBeNull();
       const windowLength =
-        (result!.fertileEnd.getTime() - result!.fertileStart.getTime()) /
-        (24 * 60 * 60 * 1000) +
-        1;
+        (result!.fertileEnd.getTime() - result!.fertileStart.getTime()) / (24 * 60 * 60 * 1000) + 1;
       expect(windowLength).toBeLessThanOrEqual(5);
     });
 
@@ -322,9 +308,7 @@ describe('Reconciler Engine', () => {
       expect(result).not.toBeNull();
       // Should still produce a reasonable window
       const windowLength =
-        (result!.fertileEnd.getTime() - result!.fertileStart.getTime()) /
-        (24 * 60 * 60 * 1000) +
-        1;
+        (result!.fertileEnd.getTime() - result!.fertileStart.getTime()) / (24 * 60 * 60 * 1000) + 1;
       expect(windowLength).toBeGreaterThan(3);
     });
 
@@ -399,9 +383,7 @@ describe('Reconciler Engine', () => {
 
   describe('Day Scores', () => {
     it('should generate day scores for all dates in range', () => {
-      const predictions = [
-        createPrediction('flo', '2025-02-10', '2025-02-15', 70),
-      ];
+      const predictions = [createPrediction('flo', '2025-02-10', '2025-02-15', 70)];
 
       const result = reconcile(predictions);
 
@@ -448,9 +430,7 @@ describe('Reconciler Engine', () => {
       expect(result!.explain.length).toBeGreaterThan(0);
 
       // Should mention sources
-      expect(result!.explain.some((e) => e.includes('flo') || e.includes('clue'))).toBe(
-        true
-      );
+      expect(result!.explain.some((e) => e.includes('flo') || e.includes('clue'))).toBe(true);
 
       // Should mention fertile window
       expect(result!.explain.some((e) => e.includes('Fertile window'))).toBe(true);

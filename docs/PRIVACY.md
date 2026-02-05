@@ -35,12 +35,12 @@ All data in Fertile is stored locally on your device using **IndexedDB**, a brow
 
 ### What We Store Locally
 
-| Data Type | Purpose | Storage Location |
-|-----------|---------|------------------|
-| Cycle data | Track period dates | Your device (IndexedDB) |
+| Data Type       | Purpose                | Storage Location        |
+| --------------- | ---------------------- | ----------------------- |
+| Cycle data      | Track period dates     | Your device (IndexedDB) |
 | App predictions | Import from other apps | Your device (IndexedDB) |
-| Observations | Daily symptom notes | Your device (IndexedDB) |
-| Settings | App preferences | Your device (IndexedDB) |
+| Observations    | Daily symptom notes    | Your device (IndexedDB) |
+| Settings        | App preferences        | Your device (IndexedDB) |
 
 ---
 
@@ -69,6 +69,7 @@ You have full control over your data. To export:
 4. Save the file to your device
 
 Your exported data is in standard formats that can be:
+
 - Imported into other apps
 - Analyzed in spreadsheets
 - Backed up for safekeeping
@@ -80,17 +81,20 @@ Your exported data is in standard formats that can be:
 To permanently delete all Fertile data:
 
 ### Option 1: In-App Deletion
+
 1. Go to **Settings**
 2. Click **Clear All Data**
 3. Confirm deletion
 
 ### Option 2: Browser Method
+
 1. Open your browser's Developer Tools (F12)
 2. Go to **Application** → **IndexedDB**
 3. Find **FertileDB**
 4. Right-click → **Delete database**
 
 ### Option 3: Clear Browser Data
+
 1. Go to browser settings
 2. Clear site data for the Fertile domain
 3. This removes all stored data
@@ -125,6 +129,7 @@ Fertile works offline after the initial load:
 Fertile does **NOT** sync data between devices. Each device maintains its own separate database.
 
 If you want to transfer data between devices:
+
 1. Export data from the source device
 2. Transfer the file (email, USB, etc.)
 3. Import into the destination device
@@ -169,14 +174,14 @@ For privacy questions or concerns:
 
 ## Summary
 
-| Question | Answer |
-|----------|--------|
-| Do you collect my data? | **No** |
-| Is my data sent to servers? | **No** |
-| Do I need an account? | **No** |
-| Can I delete my data? | **Yes, anytime** |
-| Can I export my data? | **Yes, anytime** |
-| Is this medical advice? | **No** |
+| Question                    | Answer           |
+| --------------------------- | ---------------- |
+| Do you collect my data?     | **No**           |
+| Is my data sent to servers? | **No**           |
+| Do I need an account?       | **No**           |
+| Can I delete my data?       | **Yes, anytime** |
+| Can I export my data?       | **Yes, anytime** |
+| Is this medical advice?     | **No**           |
 
 ---
 

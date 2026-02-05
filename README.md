@@ -4,7 +4,7 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Digital-ZEL/fertile)
 
-**[🚀 Live Demo](https://fertile.vercel.app)** *(coming soon)*
+**[🚀 Live Demo](https://fertile.vercel.app)** _(coming soon)_
 
 ---
 
@@ -17,26 +17,31 @@
 ## ✨ Features
 
 ### 📊 Unified Fertility Dashboard
+
 - Import predictions from **Flo**, **Clue**, **Natural Cycles**, and more
 - See a **single unified fertile window** with confidence scores
 - Visual confidence meter showing prediction agreement
 
 ### 📱 Multi-Source Import
+
 - **CSV import** from major fertility apps
 - **Manual entry** for any app predictions
 - Smart date parsing with validation
 
 ### 📅 Interactive Calendar
+
 - Color-coded fertility phases (menstrual, fertile, ovulation, luteal)
 - Cycle-by-cycle view with navigation
 - Today indicator and responsive design
 
 ### 🔍 Side-by-Side Comparison
+
 - Compare all app predictions visually
 - Identify agreement and divergence
 - Understand prediction reliability
 
 ### 🏠 100% Private & Offline
+
 - **All data stays on YOUR device** (IndexedDB)
 - No accounts, no servers, no tracking
 - Works offline after first load
@@ -47,7 +52,8 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Installation
@@ -77,9 +83,9 @@ npm start
 
 ## 📸 Screenshots
 
-*Screenshots coming soon*
+_Screenshots coming soon_
 
-<!-- 
+<!--
 | Dashboard | Calendar | Compare |
 |-----------|----------|---------|
 | ![Dashboard](docs/screenshots/dashboard.png) | ![Calendar](docs/screenshots/calendar.png) | ![Compare](docs/screenshots/compare.png) |

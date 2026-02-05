@@ -98,9 +98,7 @@ function addDays(dateStr: string, days: number): ISODateString {
 /**
  * Calculate weighted median date from predictions
  */
-function weightedMedianDate(
-  dates: { date: string; weight: number }[]
-): string {
+function weightedMedianDate(dates: { date: string; weight: number }[]): string {
   if (dates.length === 0) return formatDate(new Date());
   if (dates.length === 1) return dates[0].date;
 
@@ -131,7 +129,8 @@ function calculateSpread(dates: string[]): number {
 
   const timestamps = dates.map((d) => parseDate(d).getTime());
   const mean = timestamps.reduce((a, b) => a + b, 0) / timestamps.length;
-  const variance = timestamps.reduce((sum, t) => sum + Math.pow(t - mean, 2), 0) / timestamps.length;
+  const variance =
+    timestamps.reduce((sum, t) => sum + Math.pow(t - mean, 2), 0) / timestamps.length;
   return Math.sqrt(variance) / (1000 * 60 * 60 * 24); // Convert to days
 }
 
@@ -201,8 +200,7 @@ function reconcilePredictions(predictions: Prediction[]): ReconciledWindow | nul
       date: w.prediction.ovulationDate!,
       weight: w.weight,
     }));
-  const consensusOvulation =
-    ovulationDates.length > 0 ? weightedMedianDate(ovulationDates) : null;
+  const consensusOvulation = ovulationDates.length > 0 ? weightedMedianDate(ovulationDates) : null;
 
   // Calculate agreement spread
   const startSpread = calculateSpread(predictions.map((p) => p.fertileStart));
@@ -302,10 +300,7 @@ export function useReconciled(predictions: Prediction[]): UseReconciledReturn {
   );
 
   // Reconcile predictions
-  const window = useMemo(
-    () => reconcilePredictions(activePredictions),
-    [activePredictions]
-  );
+  const window = useMemo(() => reconcilePredictions(activePredictions), [activePredictions]);
 
   // Calculate relationship to today
   const isInWindow = useMemo(() => {

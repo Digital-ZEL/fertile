@@ -64,8 +64,7 @@ function calculateCycleVariability(cycles: Cycle[]): number {
 
   const lengths = cycles.map((c) => c.length);
   const mean = lengths.reduce((a, b) => a + b, 0) / lengths.length;
-  const variance =
-    lengths.reduce((sum, l) => sum + Math.pow(l - mean, 2), 0) / lengths.length;
+  const variance = lengths.reduce((sum, l) => sum + Math.pow(l - mean, 2), 0) / lengths.length;
 
   return Math.sqrt(variance);
 }

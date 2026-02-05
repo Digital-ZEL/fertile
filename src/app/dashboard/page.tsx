@@ -23,8 +23,7 @@ function formatDisplayDate(dateStr: string): string {
  */
 export default function Dashboard() {
   const { predictions, loading, refresh } = usePredictions();
-  const { window, isInWindow, daysUntilWindow, daysIntoWindow } =
-    useReconciled(predictions);
+  const { window, isInWindow, daysUntilWindow, daysIntoWindow } = useReconciled(predictions);
 
   const [selectedDate, setSelectedDate] = useState<ISODateString | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -59,7 +58,7 @@ export default function Dashboard() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       {/* Pull-to-refresh indicator */}
       {isRefreshing && (
-        <div className="fixed top-16 left-1/2 z-50 -translate-x-1/2">
+        <div className="fixed left-1/2 top-16 z-50 -translate-x-1/2">
           <div className="rounded-full bg-pink-500 px-4 py-2 text-sm text-white shadow-lg">
             Refreshing...
           </div>
@@ -102,7 +101,8 @@ export default function Dashboard() {
                 {/* Date range */}
                 <div className="mb-4">
                   <p className="text-2xl font-bold text-gray-900">
-                    {formatDisplayDate(window.fertileStart)} — {formatDisplayDate(window.fertileEnd)}
+                    {formatDisplayDate(window.fertileStart)} —{' '}
+                    {formatDisplayDate(window.fertileEnd)}
                   </p>
                   {window.ovulationDate && (
                     <p className="mt-1 text-sm text-gray-600">
@@ -282,29 +282,25 @@ export default function Dashboard() {
           }`}
         >
           <h3 className="mb-4 text-lg font-semibold text-gray-900">Cycle Calendar</h3>
-          <Calendar
-            window={window}
-            onDayClick={handleDayClick}
-            selectedDate={selectedDate}
-          />
+          <Calendar window={window} onDayClick={handleDayClick} selectedDate={selectedDate} />
 
           {/* Selected day details */}
           {selectedDate && window && (
             <div className="mt-4 rounded-lg bg-gray-50 p-4">
-              <p className="font-medium text-gray-900">
-                {formatDisplayDate(selectedDate)}
-              </p>
+              <p className="font-medium text-gray-900">{formatDisplayDate(selectedDate)}</p>
               {selectedDate >= window.fertileStart && selectedDate <= window.fertileEnd ? (
                 <div className="mt-1 text-sm text-gray-600">
                   {window.ovulationDate === selectedDate && (
-                    <span className="text-pink-600 font-medium">🎯 Predicted ovulation day</span>
+                    <span className="font-medium text-pink-600">🎯 Predicted ovulation day</span>
                   )}
-                  {window.peakDays.includes(selectedDate) && window.ovulationDate !== selectedDate && (
-                    <span className="text-pink-600 font-medium">🔥 Peak fertility day</span>
-                  )}
-                  {!window.peakDays.includes(selectedDate) && window.ovulationDate !== selectedDate && (
-                    <span className="text-green-600">Fertile day</span>
-                  )}
+                  {window.peakDays.includes(selectedDate) &&
+                    window.ovulationDate !== selectedDate && (
+                      <span className="font-medium text-pink-600">🔥 Peak fertility day</span>
+                    )}
+                  {!window.peakDays.includes(selectedDate) &&
+                    window.ovulationDate !== selectedDate && (
+                      <span className="text-green-600">Fertile day</span>
+                    )}
                 </div>
               ) : (
                 <p className="mt-1 text-sm text-gray-500">Not in fertile window</p>

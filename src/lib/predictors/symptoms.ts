@@ -217,11 +217,7 @@ function findFertileWindow(
 /**
  * Calculate confidence based on data quality
  */
-function calculateConfidence(
-  dayData: DayFertilityData[],
-  hasOPK: boolean,
-  hasCM: boolean
-): number {
+function calculateConfidence(dayData: DayFertilityData[], hasOPK: boolean, hasCM: boolean): number {
   let confidence = 40; // Base
 
   // OPK is highly accurate
@@ -264,9 +260,7 @@ export function predictFromSymptoms(
   const opts = { ...DEFAULT_OPTIONS, ...options };
 
   // Filter to relevant observation types
-  const relevantObs = observations.filter((o) =>
-    ['cervical-mucus', 'opk', 'bbt'].includes(o.type)
-  );
+  const relevantObs = observations.filter((o) => ['cervical-mucus', 'opk', 'bbt'].includes(o.type));
 
   if (relevantObs.length === 0) {
     return null;
@@ -295,10 +289,7 @@ export function predictFromSymptoms(
   const notes: string[] = [];
   if (hasOPK) notes.push('OPK positive detected');
   if (hasCM) {
-    const peakCM = dayData.reduce(
-      (best, d) => (d.cmScore > best.cmScore ? d : best),
-      dayData[0]
-    );
+    const peakCM = dayData.reduce((best, d) => (d.cmScore > best.cmScore ? d : best), dayData[0]);
     notes.push(`Peak CM: ${peakCM.cmType}`);
   }
 
@@ -336,8 +327,7 @@ export function detectBBTShift(
   // Calculate baseline (first 6 temps average, excluding highest)
   const baseline = sorted.slice(0, 6);
   baseline.sort((a, b) => a.value - b.value);
-  const baselineAvg =
-    baseline.slice(0, 5).reduce((sum, o) => sum + o.value, 0) / 5;
+  const baselineAvg = baseline.slice(0, 5).reduce((sum, o) => sum + o.value, 0) / 5;
 
   // Look for sustained rise
   for (let i = 6; i < sorted.length - 2; i++) {
@@ -347,11 +337,7 @@ export function detectBBTShift(
 
     // Check if all 3 days are elevated
     const threshold = baselineAvg + 0.2;
-    if (
-      day1.value >= threshold &&
-      day2.value >= threshold &&
-      day3.value >= threshold
-    ) {
+    if (day1.value >= threshold && day2.value >= threshold && day3.value >= threshold) {
       return {
         shiftDate: day1.date,
         confirmed: true,

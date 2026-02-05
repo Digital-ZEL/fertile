@@ -36,8 +36,8 @@ export interface CombinedPredictorOptions {
 const DEFAULT_OPTIONS: Required<CombinedPredictorOptions> = {
   weights: {
     calendar: 0.55,
-    symptoms: 0.80,
-    manual: 0.60,
+    symptoms: 0.8,
+    manual: 0.6,
     'fertility-friend': 0.85,
   },
   alwaysIncludeCalendar: true,
@@ -84,7 +84,7 @@ export function predictCombined(
     input.currentCycleStart,
     input.historicalCycles || []
   );
-  
+
   // Rename source for clarity
   calendarPrediction.source = 'manual'; // Calendar method is manual/basic
 
@@ -93,14 +93,8 @@ export function predictCombined(
   }
 
   // Generate symptom prediction if we have enough data
-  if (
-    input.observations &&
-    input.observations.length >= opts.minSymptomObservations
-  ) {
-    const symptomPrediction = predictFromSymptoms(
-      input.observations,
-      input.currentCycleStart
-    );
+  if (input.observations && input.observations.length >= opts.minSymptomObservations) {
+    const symptomPrediction = predictFromSymptoms(input.observations, input.currentCycleStart);
 
     if (symptomPrediction) {
       predictions.push(symptomPrediction);
@@ -118,14 +112,9 @@ export function predictCombined(
     return {
       fertileStart: new Date(p.fertileStart + 'T00:00:00Z'),
       fertileEnd: new Date(p.fertileEnd + 'T00:00:00Z'),
-      ovulationDate: p.ovulationDate
-        ? new Date(p.ovulationDate + 'T00:00:00Z')
-        : undefined,
+      ovulationDate: p.ovulationDate ? new Date(p.ovulationDate + 'T00:00:00Z') : undefined,
       confidence: p.confidence / 100,
-      explain: [
-        `Based on ${p.source} prediction only`,
-        p.notes || '',
-      ].filter(Boolean),
+      explain: [`Based on ${p.source} prediction only`, p.notes || ''].filter(Boolean),
       diagnostics: {
         sourceAgreement: 1,
         outliers: [],
@@ -157,9 +146,7 @@ export interface PredictionQuality {
 /**
  * Assess the quality of available data and predictions
  */
-export function assessPredictionQuality(
-  input: CombinedPredictionInput
-): PredictionQuality {
+export function assessPredictionQuality(input: CombinedPredictionInput): PredictionQuality {
   const factors: PredictionQuality['factors'] = [];
   const recommendations: string[] = [];
   let score = 50; // Base score
@@ -194,8 +181,7 @@ export function assessPredictionQuality(
   if (input.historicalCycles && input.historicalCycles.length >= 3) {
     const lengths = input.historicalCycles.map((c) => c.length);
     const avg = lengths.reduce((a, b) => a + b, 0) / lengths.length;
-    const variance =
-      lengths.reduce((sum, l) => sum + Math.pow(l - avg, 2), 0) / lengths.length;
+    const variance = lengths.reduce((sum, l) => sum + Math.pow(l - avg, 2), 0) / lengths.length;
     const stdDev = Math.sqrt(variance);
 
     if (stdDev <= 2) {
@@ -223,8 +209,7 @@ export function assessPredictionQuality(
   }
 
   // Assess observation data
-  const cmObs =
-    input.observations?.filter((o) => o.type === 'cervical-mucus').length || 0;
+  const cmObs = input.observations?.filter((o) => o.type === 'cervical-mucus').length || 0;
   const opkObs = input.observations?.filter((o) => o.type === 'opk').length || 0;
 
   if (opkObs > 0) {

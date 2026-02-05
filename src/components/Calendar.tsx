@@ -23,8 +23,18 @@ interface DayInfo {
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 function formatDate(date: Date): ISODateString {
@@ -121,7 +131,8 @@ export default function Calendar({ window, onDayClick, selectedDate }: CalendarP
 
   // Get day styling based on fertility status
   const getDayClasses = (day: DayInfo): string => {
-    const base = 'relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full text-sm font-medium transition-all';
+    const base =
+      'relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full text-sm font-medium transition-all';
 
     if (!day.isCurrentMonth) {
       return `${base} text-gray-300`;
@@ -168,7 +179,12 @@ export default function Calendar({ window, onDayClick, selectedDate }: CalendarP
           aria-label="Previous month"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
 
@@ -176,10 +192,7 @@ export default function Calendar({ window, onDayClick, selectedDate }: CalendarP
           <h3 className="text-lg font-semibold text-gray-900">
             {MONTHS[currentMonth]} {currentYear}
           </h3>
-          <button
-            onClick={goToToday}
-            className="text-xs text-pink-600 hover:text-pink-700"
-          >
+          <button onClick={goToToday} className="text-xs text-pink-600 hover:text-pink-700">
             Today
           </button>
         </div>
@@ -198,10 +211,7 @@ export default function Calendar({ window, onDayClick, selectedDate }: CalendarP
       {/* Weekday headers */}
       <div className="mb-2 grid grid-cols-7 gap-1">
         {WEEKDAYS.map((day) => (
-          <div
-            key={day}
-            className="text-center text-xs font-medium text-gray-500 uppercase"
-          >
+          <div key={day} className="text-center text-xs font-medium uppercase text-gray-500">
             {day}
           </div>
         ))}
