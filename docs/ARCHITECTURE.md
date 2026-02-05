@@ -96,6 +96,7 @@ fertile/
 ## Data Models
 
 ### Cycle
+
 ```typescript
 interface Cycle {
   id: string;
@@ -108,6 +109,7 @@ interface Cycle {
 ```
 
 ### DailyEntry
+
 ```typescript
 interface DailyEntry {
   date: Date;
@@ -121,6 +123,7 @@ interface DailyEntry {
 ```
 
 ### Prediction
+
 ```typescript
 interface Prediction {
   source: 'fertile' | 'ff' | 'clue' | 'flo' | 'manual';
@@ -133,6 +136,7 @@ interface Prediction {
 ```
 
 ### UnifiedPrediction
+
 ```typescript
 interface UnifiedPrediction {
   fertileStart: Date;
@@ -148,8 +152,9 @@ interface UnifiedPrediction {
 ## Reconciliation Algorithm
 
 ### Input
+
 ```typescript
-function reconcile(predictions: Prediction[]): UnifiedPrediction
+function reconcile(predictions: Prediction[]): UnifiedPrediction;
 ```
 
 ### Steps
@@ -163,22 +168,20 @@ function reconcile(predictions: Prediction[]): UnifiedPrediction
    - Weight by number of agreements
 
 3. **Apply Reliability Weights**
+
    ```typescript
    const weights = {
-     ff: 0.9,      // Fertility Friend - most data-rich
-     clue: 0.7,    // Good for regulars
-     flo: 0.5,     // Mainstream, less accurate
-     manual: 0.8,  // User's own observation
+     ff: 0.9, // Fertility Friend - most data-rich
+     clue: 0.7, // Good for regulars
+     flo: 0.5, // Mainstream, less accurate
+     manual: 0.8, // User's own observation
    };
    ```
 
 4. **Compute Confidence**
+
    ```typescript
-   confidence = (
-     overlapScore * 0.4 +
-     reliabilityScore * 0.3 +
-     dataQualityScore * 0.3
-   ) * 100;
+   confidence = (overlapScore * 0.4 + reliabilityScore * 0.3 + dataQualityScore * 0.3) * 100;
    ```
 
 5. **Generate Explanation**
@@ -188,6 +191,7 @@ function reconcile(predictions: Prediction[]): UnifiedPrediction
 ## Storage Strategy
 
 ### localStorage Schema
+
 ```typescript
 interface StorageSchema {
   version: number;
@@ -206,6 +210,7 @@ interface StorageSchema {
 ```
 
 ### Versioning
+
 - Schema version tracked for migrations
 - Backward compatible reads
 - Migration scripts for upgrades
@@ -242,11 +247,13 @@ interface StorageSchema {
 ## Future Considerations
 
 ### Partner Sync (v2)
+
 - WebRTC for direct device-to-device sync
 - End-to-end encryption
 - No server storage
 
 ### Wearable Integration (v2)
+
 - Health Connect API (Android)
 - HealthKit (iOS) via React Native
 - Direct Tempdrop/Ava APIs if available

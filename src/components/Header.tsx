@@ -24,6 +24,15 @@ export default function Header() {
             <Link href="/dashboard" className="text-gray-600 transition-colors hover:text-pink-600">
               Dashboard
             </Link>
+            <Link href="/cycle" className="text-gray-600 transition-colors hover:text-pink-600">
+              Cycle
+            </Link>
+            <Link href="/observe" className="text-gray-600 transition-colors hover:text-pink-600">
+              Observe
+            </Link>
+            <Link href="/import" className="text-gray-600 transition-colors hover:text-pink-600">
+              Import
+            </Link>
             <Link href="/settings" className="text-gray-600 transition-colors hover:text-pink-600">
               Settings
             </Link>
@@ -72,6 +81,27 @@ export default function Header() {
                 className="rounded-md px-3 py-2 text-gray-600 hover:bg-pink-50 hover:text-pink-600"
               >
                 Dashboard
+              </Link>
+              <Link
+                href="/cycle"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-md px-3 py-2 text-gray-600 hover:bg-pink-50 hover:text-pink-600"
+              >
+                Cycle
+              </Link>
+              <Link
+                href="/observe"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-md px-3 py-2 text-gray-600 hover:bg-pink-50 hover:text-pink-600"
+              >
+                Observe
+              </Link>
+              <Link
+                href="/import"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-md px-3 py-2 text-gray-600 hover:bg-pink-50 hover:text-pink-600"
+              >
+                Import
               </Link>
               <Link
                 href="/settings"

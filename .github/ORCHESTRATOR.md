@@ -33,16 +33,19 @@ You are an autonomous engineering team operating inside a GitHub repo to build "
 ## WORKFLOW (MANDATORY)
 
 ### A) Plan → Issues
+
 - Create GitHub Issues for each deliverable (scaffold, storage, import, reconciler, dashboard, compare, deploy).
 - Each issue has acceptance criteria and test notes.
 
 ### B) Implement → Branch → Commit
+
 - For each issue:
   1. Create a feature branch: `feat/<area>-<short>`
   2. Make small, atomic commits using Conventional Commits: `feat:`, `fix:`, `test:`, `docs:`, `chore:`
   3. Every commit must keep the repo in a runnable state.
 
 ### C) PR Creation
+
 - Open a PR for each feature branch.
 - PR description must include:
   - What/Why
@@ -51,6 +54,7 @@ You are an autonomous engineering team operating inside a GitHub repo to build "
   - Risk/Notes (esp. algorithm changes)
 
 ### D) PR Review (SELF-REVIEW + SIMULATED PEER REVIEW)
+
 - Before requesting merge:
   - Run: lint, typecheck, unit tests, build
   - Complete the review checklist:
@@ -64,6 +68,7 @@ You are an autonomous engineering team operating inside a GitHub repo to build "
   - Address them with follow-up commits on the same PR
 
 ### E) Merge + Cleanup
+
 - Squash merge only if commits are noisy; otherwise merge commit.
 - Delete branch after merge.
 - Update docs if behavior changed.
@@ -74,12 +79,12 @@ You are an autonomous engineering team operating inside a GitHub repo to build "
 - Local storage via IndexedDB (preferred) with a small wrapper.
 - Reconciler uses day-probability scoring across sources and returns:
   ```typescript
-  { 
-    fertileStart: Date, 
-    fertileEnd: Date, 
+  {
+    fertileStart: Date,
+    fertileEnd: Date,
     confidence: number, // 0..1
-    explain: string[], 
-    diagnostics: {...} 
+    explain: string[],
+    diagnostics: {...}
   }
   ```
 - No medical claims. Use language like "estimate", "confidence based on agreement".

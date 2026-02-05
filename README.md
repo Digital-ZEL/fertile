@@ -1,123 +1,36 @@
-# 🌸 Fertile
-
-**Unified Fertility Intelligence** — Stop guessing which app is right. Get one confident answer.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Digital-ZEL/fertile)
-
----
-
-## The Problem
-
-You track your cycle in 3 apps. You get 3 different fertile windows:
-- **Fertility Friend:** Jan 7-10
-- **Clue:** Jan 19-24  
-- **Flo:** Jan 15-19
-
-Which one do you trust? 🤷‍♀️
-
-## The Solution
-
-Fertile reconciles predictions from multiple apps and gives you **ONE unified prediction** with a confidence score.
-
-```
-Your Fertile Window: Jan 15-18
-Confidence: 87%
-
-Why: 2 of 3 apps agree on these dates. 
-Your historical data shows Clue tends to predict 2 days early.
-```
-
----
-
-## Features
-
-### MVP (v1)
-- [x] Manual data entry (dates, temps, symptoms)
-- [x] Import from Fertility Friend (CSV)
-- [x] Reconciliation algorithm with confidence scoring
-- [x] Mobile-responsive UI
-- [x] Data stays local (privacy-first)
-
-### Coming Soon
-- [ ] Import from Clue, Flo, Premom
-- [ ] Partner sync (iPhone ↔ Android)
-- [ ] Wearable data integration (Tempdrop, Ava)
-- [ ] AI-powered predictions
-
----
-
-## Tech Stack
-
-| Component | Choice |
-|-----------|--------|
-| Framework | Next.js 14 |
-| Styling | Tailwind CSS |
-| Storage | Local (localStorage) |
-| Hosting | Vercel (free tier) |
-| Database | None (MVP) |
-
----
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
+First, run the development server:
+
 ```bash
-# Clone the repo
-git clone https://github.com/Digital-ZEL/fertile.git
-cd fertile
-
-# Install dependencies
-npm install
-
-# Run development server
 npm run dev
-
-# Open http://localhost:3000
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
----
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## How It Works
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### The Algorithm
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. **Normalize** — Convert all dates to the same format
-2. **Overlap Detection** — Find where predictions agree
-3. **Weighting** — Factor in app reliability + your historical accuracy
-4. **Confidence Score** — Calculate based on agreement level
+## Learn More
 
-```
-Confidence = (overlap_days / total_range) × app_reliability × historical_accuracy
-```
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Privacy
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- **No accounts required**
-- **No data sent to servers**
-- **Everything stays on your device**
-- **Export your data anytime**
+## Deploy on Vercel
 
-We believe your fertility data is deeply personal. It never leaves your device.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-
-## Contributing
-
-PRs welcome! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
-
----
-
-## Disclaimer
-
-⚠️ **Fertile is not medical advice.** It's a tool to help you understand your cycle data. Always consult a healthcare provider for fertility-related decisions.
-
----
-
-## License
-
-MIT © 2026 Digital-ZEL
-
----
-
-*Built with ❤️ for the TTC community*
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

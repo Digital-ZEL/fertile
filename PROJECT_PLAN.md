@@ -32,16 +32,17 @@ fertile/
 
 ### 1.2 Technical Stack Decision
 
-| Component | Choice | Why |
-|-----------|--------|-----|
-| Framework | Next.js 14 | Fast, free Vercel deploy |
-| Database | None (MVP) | User data stays local |
-| Auth | None (MVP) | No accounts needed |
-| Hosting | Vercel free tier | $0/month |
+| Component | Choice           | Why                      |
+| --------- | ---------------- | ------------------------ |
+| Framework | Next.js 14       | Fast, free Vercel deploy |
+| Database  | None (MVP)       | User data stays local    |
+| Auth      | None (MVP)       | No accounts needed       |
+| Hosting   | Vercel free tier | $0/month                 |
 
 ### 1.3 MVP Scope (IN vs OUT)
 
 **IN (Must have for launch):**
+
 - [ ] Manual data entry (dates, temps, symptoms)
 - [ ] Import from 1 app (Fertility Friend CSV export)
 - [ ] Reconciliation algorithm (simple: weighted average)
@@ -49,6 +50,7 @@ fertile/
 - [ ] Mobile-responsive UI
 
 **OUT (Post-launch):**
+
 - Partner sync
 - Automatic app imports
 - Wearable integration
@@ -75,18 +77,21 @@ Logic:
 ### 2.2 UI Screens (3 total)
 
 **Screen 1: Data Entry**
+
 - Add cycle start date
 - Enter temps (optional)
 - Enter symptoms (optional)
 - Import FF CSV
 
 **Screen 2: Dashboard**
+
 - Current cycle day
 - Unified fertile window
 - Confidence score with explanation
 - Calendar view
 
 **Screen 3: Compare**
+
 - Side-by-side: "What App X says vs App Y vs Our prediction"
 - Visual showing where apps agree/disagree
 
@@ -112,6 +117,7 @@ Logic:
 **Title:** "I built a free tool that reconciles predictions from multiple fertility apps - would love feedback"
 
 **Body:**
+
 > Like many of you, I was frustrated that Fertility Friend, Clue, and Flo all gave me different fertile windows. So I built a simple tool that takes your data and gives you ONE unified prediction with a confidence score.
 >
 > It's free, no account needed, your data stays on your device.
@@ -122,24 +128,26 @@ Logic:
 
 ### 3.3 Success Metrics (Week 1)
 
-| Metric | Target | How to Measure |
-|--------|--------|----------------|
-| Visitors | 500+ | Vercel Analytics |
-| Feedback comments | 20+ | Reddit thread |
-| Feature requests | 10+ | Track in GitHub Issues |
-| "I'd pay for this" | 3+ | Reddit comments |
+| Metric             | Target | How to Measure         |
+| ------------------ | ------ | ---------------------- |
+| Visitors           | 500+   | Vercel Analytics       |
+| Feedback comments  | 20+    | Reddit thread          |
+| Feature requests   | 10+    | Track in GitHub Issues |
+| "I'd pay for this" | 3+     | Reddit comments        |
 
 ---
 
 ## 📋 PHASE 4: ITERATE OR KILL (Week 2+)
 
 ### If Validation Succeeds (3+ payment signals):
+
 1. Add Stripe for $29/year premium
 2. Build import for 2nd app (Clue)
 3. Add partner sync
 4. Consider ClawHub skill version
 
 ### If Validation Fails:
+
 1. Pivot to working moms (21/25 score)
 2. Or pivot to different fertility angle (partner sync only)
 3. Document learnings
@@ -148,24 +156,24 @@ Logic:
 
 ## ⚠️ RISK MITIGATION
 
-| Risk | Mitigation |
-|------|------------|
-| Medical liability | Disclaimer: "Not medical advice, for tracking only" |
-| Competition responds | Move fast, ship in 5 days |
-| No adoption | Validate on Reddit BEFORE adding features |
-| Scope creep | Ruthless MVP — if it's not in the list, it's not in v1 |
+| Risk                 | Mitigation                                             |
+| -------------------- | ------------------------------------------------------ |
+| Medical liability    | Disclaimer: "Not medical advice, for tracking only"    |
+| Competition responds | Move fast, ship in 5 days                              |
+| No adoption          | Validate on Reddit BEFORE adding features              |
+| Scope creep          | Ruthless MVP — if it's not in the list, it's not in v1 |
 
 ---
 
 ## 💰 COST BREAKDOWN
 
-| Item | Cost |
-|------|------|
-| Vercel hosting | $0 (free tier) |
-| Domain (optional) | $12/year |
-| Your time | 10-15 hours |
-| AI assistance | Unlimited 🤖 |
-| **Total** | **~$0-12** |
+| Item              | Cost           |
+| ----------------- | -------------- |
+| Vercel hosting    | $0 (free tier) |
+| Domain (optional) | $12/year       |
+| Your time         | 10-15 hours    |
+| AI assistance     | Unlimited 🤖   |
+| **Total**         | **~$0-12**     |
 
 ---
 
@@ -174,7 +182,7 @@ Logic:
 1. **Domain:** fertile.app? fertileai.com? Or just use vercel subdomain for MVP?
 2. **Timeline:** 5 days aggressive, 10 days comfortable — which pace?
 3. **First app to support:** Fertility Friend (most data-rich) or Flo (most users)?
-4. **Your involvement:** 
+4. **Your involvement:**
    - Option A: AI builds, you review/approve
    - Option B: Pair-program (you watch, AI codes)
    - Option C: AI specs, you build
@@ -188,11 +196,13 @@ Logic:
 **Pain Score:** 22/25 (Highest of 3 niches tested)
 
 **Key Evidence:**
+
 > "I've been using the Ava bracelet for a few months now... they are predicting my ovulation/fertile dates as WILDLY different." — r/TTC30
 
 > "I'm willing to pay for it, but always looking to save a buck!" — r/FAMnNFP
 
 **Payment Signals:**
+
 - Users spending $200-300 on Tempdrop/Ava hardware
 - Paying £19-100/year for existing fertility apps
 - Explicit "I'm willing to pay" statements found
@@ -208,4 +218,4 @@ Logic:
 
 ---
 
-*Plan created by OpenClaw | Ready to execute on command*
+_Plan created by OpenClaw | Ready to execute on command_

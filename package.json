@@ -10,23 +10,33 @@
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
+    "idb": "^8.0.3",
+    "next": "14.2.35",
+    "papaparse": "^5.5.3",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.35"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^28.0.0",
+    "postcss": "^8",
     "prettier": "^3.2.0",
-    "prettier-plugin-tailwindcss": "^0.5.0"
+    "prettier-plugin-tailwindcss": "^0.5.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "vitest": "^4.0.18"
   }
 }
