@@ -3,7 +3,7 @@
  * These types are specific to the FF CSV import process
  */
 
-import type { Observation, CervicalMucusType, OPKResult } from '@/types';
+import type { CervicalMucusType, OPKResult } from '@/types';
 
 export type FFCervicalMucus = 'dry' | 'sticky' | 'creamy' | 'watery' | 'eggwhite' | 'unknown';
 
