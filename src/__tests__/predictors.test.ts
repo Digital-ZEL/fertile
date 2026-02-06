@@ -146,11 +146,15 @@ describe('Calendar Predictor', () => {
       expect(predictions.length).toBe(3);
 
       // Each cycle should be ~28 days apart
-      // Dates depend on month lengths, so check relative spacing
-      expect(predictions[0].fertileStart).toBe('2025-02-10');
-      // Feb has 28 days, so March start varies
-      expect(predictions[1].fertileStart).toBe('2025-03-09'); // Feb 1 + 28 = Mar 1, + 9 = Mar 10... but Feb has 28 days
-      expect(predictions[2].fertileStart).toBe('2025-04-06');
+      // Dates depend on month lengths, so check relative spacing in days
+      const first = new Date(`${predictions[0].fertileStart}T00:00:00Z`);
+      const second = new Date(`${predictions[1].fertileStart}T00:00:00Z`);
+      const third = new Date(`${predictions[2].fertileStart}T00:00:00Z`);
+      const daysBetween = (a: Date, b: Date) =>
+        Math.round((b.getTime() - a.getTime()) / (24 * 60 * 60 * 1000));
+
+      expect(daysBetween(first, second)).toBe(28);
+      expect(daysBetween(second, third)).toBe(28);
     });
 
     it('should reduce confidence for future cycles', () => {

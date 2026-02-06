@@ -287,4 +287,18 @@ describe('convertToObservations', () => {
       expect(obs.updatedAt).toBeDefined();
     }
   });
+
+  it('skips unknown cervical mucus and OPK values', () => {
+    const observations = convertToObservations([
+      {
+        date: '2024-01-15',
+        temp: 97.5,
+        cervicalMucus: 'unknown',
+        opk: 'unknown',
+      },
+    ]);
+
+    expect(observations).toHaveLength(1);
+    expect(observations[0].type).toBe('bbt');
+  });
 });

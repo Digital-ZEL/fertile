@@ -348,7 +348,9 @@ export function detectBBTShift(
   return null;
 }
 
-export default {
+const symptomPredictor = {
   predict: predictFromSymptoms,
   detectBBTShift,
 };
+
+export default symptomPredictor;
