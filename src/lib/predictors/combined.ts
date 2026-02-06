@@ -281,7 +281,9 @@ export function assessPredictionQuality(input: CombinedPredictionInput): Predict
   };
 }
 
-export default {
+const combinedPredictor = {
   predict: predictCombined,
   assessQuality: assessPredictionQuality,
 };
+
+export default combinedPredictor;

@@ -177,7 +177,9 @@ export function predictMultipleCycles(
   return predictions;
 }
 
-export default {
+const calendarPredictor = {
   predict: predictFromCalendar,
   predictMultiple: predictMultipleCycles,
 };
+
+export default calendarPredictor;
