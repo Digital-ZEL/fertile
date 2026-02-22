@@ -92,6 +92,14 @@ export default function Dashboard() {
       </div>
 
       {/* Desktop: Full layout / Mobile: Active section */}
+      {predictions.length < 2 && (
+        <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+          <p className="font-medium">Increase prediction confidence</p>
+          <p className="mt-1">
+            Add at least one more source in <a className="underline" href="/import">Import</a>, then tune source weighting in <a className="underline" href="/settings">Settings</a>.
+          </p>
+        </div>
+      )}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Hero Card: Unified Fertile Window */}
         <div
