@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   parseFFCSV,
   getCSVPreview,
@@ -14,6 +15,7 @@ import { trackEvent } from '@/lib/analytics';
 type ImportState = 'idle' | 'preview' | 'importing' | 'success' | 'error';
 
 export default function ImportPage() {
+  const router = useRouter();
   const [state, setState] = useState<ImportState>('idle');
   const [fileName, setFileName] = useState<string>('');
   const [preview, setPreview] = useState<ParsedCSVRow[]>([]);
@@ -336,6 +338,12 @@ export default function ImportPage() {
             Successfully imported {importedCount} observation{importedCount !== 1 ? 's' : ''}
           </p>
           <div className="mt-6 flex justify-center gap-4">
+            <button
+              onClick={() => router.push('/settings')}
+              className="rounded-lg bg-purple-600 px-6 py-3 font-medium text-white transition-colors hover:bg-purple-700"
+            >
+              Tune Calibration
+            </button>
             <a
               href="/dashboard"
               className="rounded-lg bg-pink-600 px-6 py-3 font-medium text-white transition-colors hover:bg-pink-700"
