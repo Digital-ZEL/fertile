@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import type { Prediction, PredictionSource, ISODateString } from '@/types';
+import { getCalibration } from '@/lib/calibration';
 
 /**
  * Agreement level between sources
@@ -174,9 +175,10 @@ function reconcilePredictions(predictions: Prediction[]): ReconciledWindow | nul
   }
 
   // Multiple sources - perform reconciliation
+  const calibration = getCalibration();
   const weights = predictions.map((p) => ({
     prediction: p,
-    weight: SOURCE_WEIGHTS[p.source] * (p.confidence / 100),
+    weight: (SOURCE_WEIGHTS[p.source] + (calibration[p.source] ?? 0)) * (p.confidence / 100),
   }));
 
   // Calculate weighted median for start date

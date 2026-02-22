@@ -9,6 +9,7 @@ import {
 } from '@/lib/ff-import';
 import { addObservations } from '@/lib/db';
 import type { ImportResult, ParsedCSVRow } from '@/lib/types';
+import { trackEvent } from '@/lib/analytics';
 
 type ImportState = 'idle' | 'preview' | 'importing' | 'success' | 'error';
 
@@ -105,6 +106,7 @@ export default function ImportPage() {
       // Save to IndexedDB
       const saved = await addObservations(observations);
       setImportedCount(saved.length);
+      trackEvent('import_completed', { importedCount: saved.length });
       setState('success');
     } catch (error) {
       console.error('Import error:', error);

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { usePredictions, useReconciled } from '@/hooks';
 import { Calendar, ConfidenceMeter, ConfidenceBar } from '@/components';
 import type { ISODateString } from '@/types';
+import { trackEvent } from '@/lib/analytics';
 
 /**
  * Format date for display
@@ -43,6 +44,14 @@ export default function Dashboard() {
   // Swipe state for mobile sections
   const [activeSection, setActiveSection] = useState(0);
   const sections = ['overview', 'calendar', 'sources'];
+
+  useEffect(() => {
+    trackEvent('dashboard_view');
+  }, []);
+
+  useEffect(() => {
+    trackEvent('prediction_generated', { sourceCount: predictions.length });
+  }, [predictions.length]);
 
   if (loading) {
     return (
