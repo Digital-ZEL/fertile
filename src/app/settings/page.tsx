@@ -1,86 +1,120 @@
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import { getDB } from '@/lib/db';
+import { getCalibration, setCalibration, type SourceCalibration } from '@/lib/calibration';
+import { getEventSummary, trackEvent } from '@/lib/analytics';
+import type { PredictionSource } from '@/types';
+
+const SOURCES: PredictionSource[] = [
+  'natural-cycles',
+  'fertility-friend',
+  'fertile-algorithm',
+  'clue',
+  'flo',
+  'ovia',
+  'manual',
+];
+
 export default function Settings() {
+  const [calibration, setLocalCalibration] = useState<SourceCalibration>(getCalibration());
+  const [events, setEvents] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    setEvents(getEventSummary(30));
+  }, []);
+
+  const sourceEntries = useMemo(() => SOURCES.map((s) => [s, calibration[s]] as const), [calibration]);
+
+  const updateSource = (source: PredictionSource, value: number) => {
+    const next = { ...calibration, [source]: Number(value.toFixed(2)) };
+    setLocalCalibration(next);
+    setCalibration(next);
+    trackEvent('source_calibrated', { source, value: next[source] });
+  };
+
+  const exportPartnerPacket = async () => {
+    const db = getDB();
+    const [cycles, predictions, observations] = await Promise.all([
+      db.getAllCycles(),
+      db.getAllPredictions(),
+      db.getAllObservations(),
+    ]);
+
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      app: 'fertile',
+      schemaVersion: 1,
+      cycles,
+      predictions,
+      observations,
+    };
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fertile-partner-export-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    trackEvent('settings_export');
+  };
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold text-gray-900">Settings</h1>
 
       <div className="space-y-6">
-        {/* Profile Section */}
         <section className="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Profile</h2>
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Source Calibration</h2>
+          <p className="mb-4 text-sm text-gray-600">
+            Tune source influence based on your personal outcomes. Positive values trust a source more, negative values trust less.
+          </p>
           <div className="space-y-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Display Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                placeholder="Enter your name"
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
-              />
-            </div>
+            {sourceEntries.map(([source, value]) => (
+              <div key={source}>
+                <div className="mb-1 flex items-center justify-between text-sm">
+                  <span className="capitalize text-gray-700">{source.replace(/-/g, ' ')}</span>
+                  <span className="font-medium text-gray-900">{value > 0 ? '+' : ''}{value.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min={-0.3}
+                  max={0.3}
+                  step={0.01}
+                  value={value}
+                  onChange={(e) => updateSource(source, Number(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Cycle Settings */}
         <section className="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Cycle Settings</h2>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="cycleLength" className="block text-sm font-medium text-gray-700">
-                Average Cycle Length (days)
-              </label>
-              <input
-                type="number"
-                id="cycleLength"
-                defaultValue={28}
-                min={21}
-                max={35}
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
-              />
-            </div>
-            <div>
-              <label htmlFor="lutealLength" className="block text-sm font-medium text-gray-700">
-                Luteal Phase Length (days)
-              </label>
-              <input
-                type="number"
-                id="lutealLength"
-                defaultValue={14}
-                min={10}
-                max={16}
-                className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
-              />
-            </div>
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Growth Metrics (Last 30 days)</h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {['dashboard_view', 'prediction_generated', 'import_completed', 'source_calibrated', 'settings_export'].map((k) => (
+              <div key={k} className="rounded-lg bg-gray-50 p-3">
+                <p className="text-xs text-gray-500">{k.replace(/_/g, ' ')}</p>
+                <p className="text-xl font-semibold text-gray-900">{events[k] ?? 0}</p>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Notifications */}
         <section className="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Notifications</h2>
-          <div className="space-y-4">
-            <label className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                defaultChecked
-                className="h-5 w-5 rounded border-gray-300 text-pink-600 focus:ring-pink-500"
-              />
-              <span className="text-gray-700">Fertile window reminders</span>
-            </label>
-            <label className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                className="h-5 w-5 rounded border-gray-300 text-pink-600 focus:ring-pink-500"
-              />
-              <span className="text-gray-700">Daily fertility score</span>
-            </label>
-          </div>
+          <h2 className="mb-3 text-lg font-semibold text-gray-900">Partner Share</h2>
+          <p className="mb-4 text-sm text-gray-600">
+            Export a privacy-first JSON packet you can send to your partner or clinician. No cloud required.
+          </p>
+          <button
+            onClick={exportPartnerPacket}
+            className="rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-pink-700"
+          >
+            Export Partner Packet
+          </button>
         </section>
-
-        {/* Save Button */}
-        <button className="w-full rounded-lg bg-pink-600 py-3 font-semibold text-white transition-colors hover:bg-pink-700">
-          Save Settings
-        </button>
       </div>
     </div>
   );

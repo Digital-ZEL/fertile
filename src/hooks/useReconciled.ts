@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import type { Prediction, PredictionSource, ISODateString } from '@/types';
+import { getCalibration } from '@/lib/calibration';
 
 /**
  * Agreement level between sources
@@ -67,7 +68,7 @@ const SOURCE_WEIGHTS: Record<PredictionSource, number> = {
  * Parse date string to Date object
  */
 function parseDate(dateStr: string): Date {
-  return new Date(dateStr + 'T00:00:00');
+  return new Date(dateStr + 'T00:00:00Z');
 }
 
 /**
@@ -91,7 +92,7 @@ function daysBetween(date1: string, date2: string): number {
  */
 function addDays(dateStr: string, days: number): ISODateString {
   const date = parseDate(dateStr);
-  date.setDate(date.getDate() + days);
+  date.setUTCDate(date.getUTCDate() + days);
   return formatDate(date);
 }
 
@@ -174,9 +175,10 @@ function reconcilePredictions(predictions: Prediction[]): ReconciledWindow | nul
   }
 
   // Multiple sources - perform reconciliation
+  const calibration = getCalibration();
   const weights = predictions.map((p) => ({
     prediction: p,
-    weight: SOURCE_WEIGHTS[p.source] * (p.confidence / 100),
+    weight: (SOURCE_WEIGHTS[p.source] + (calibration[p.source] ?? 0)) * (p.confidence / 100),
   }));
 
   // Calculate weighted median for start date
