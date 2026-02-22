@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { getDB } from '@/lib/db';
-import { getCalibration, setCalibration, type SourceCalibration } from '@/lib/calibration';
+import { getCalibration, setCalibration, setLastCalibrationChange, type SourceCalibration } from '@/lib/calibration';
 import { getEventSummary, trackEvent } from '@/lib/analytics';
 import type { PredictionSource } from '@/types';
 
@@ -27,9 +27,11 @@ export default function Settings() {
   const sourceEntries = useMemo(() => SOURCES.map((s) => [s, calibration[s]] as const), [calibration]);
 
   const updateSource = (source: PredictionSource, value: number) => {
+    const prev = calibration[source] ?? 0;
     const next = { ...calibration, [source]: Number(value.toFixed(2)) };
     setLocalCalibration(next);
     setCalibration(next);
+    setLastCalibrationChange({ source, previous: prev, next: next[source], at: new Date().toISOString() });
     trackEvent('source_calibrated', { source, value: next[source] });
   };
 
@@ -70,6 +72,9 @@ export default function Settings() {
           <p className="mb-4 text-sm text-gray-600">
             Tune source influence based on your personal outcomes. Positive values trust a source more, negative values trust less.
           </p>
+          <div className="mb-3 rounded-lg bg-pink-50 p-3 text-xs text-pink-700">
+            Tip: move a source up when its past predictions matched your actual ovulation, down when it consistently misses.
+          </div>
           <div className="space-y-4">
             {sourceEntries.map(([source, value]) => (
               <div key={source}>
@@ -108,12 +113,41 @@ export default function Settings() {
           <p className="mb-4 text-sm text-gray-600">
             Export a privacy-first JSON packet you can send to your partner or clinician. No cloud required.
           </p>
-          <button
-            onClick={exportPartnerPacket}
-            className="rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-pink-700"
-          >
-            Export Partner Packet
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => {
+                setLocalCalibration(getCalibration());
+              }}
+              className="rounded-lg border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              Reload Calibration
+            </button>
+            <button
+              onClick={() => {
+                const cleared = {
+                  'natural-cycles': 0,
+                  'fertility-friend': 0,
+                  'fertile-algorithm': 0,
+                  clue: 0,
+                  flo: 0,
+                  ovia: 0,
+                  manual: 0,
+                } as SourceCalibration;
+                setLocalCalibration(cleared);
+                setCalibration(cleared);
+                setLastCalibrationChange({ source: 'all', previous: 0, next: 0, at: new Date().toISOString() });
+              }}
+              className="rounded-lg border border-red-200 bg-red-50 px-6 py-3 font-semibold text-red-700 transition-colors hover:bg-red-100"
+            >
+              Reset Calibration
+            </button>
+            <button
+              onClick={exportPartnerPacket}
+              className="rounded-lg bg-pink-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-pink-700"
+            >
+              Export Partner Packet
+            </button>
+          </div>
         </section>
       </div>
     </div>

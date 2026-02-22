@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePredictions, useReconciled } from '@/hooks';
 import { Calendar, ConfidenceMeter, ConfidenceBar } from '@/components';
 import type { ISODateString } from '@/types';
 import { trackEvent } from '@/lib/analytics';
+import { getCalibration, getLastCalibrationChange } from '@/lib/calibration';
 
 /**
  * Format date for display
@@ -44,6 +45,27 @@ export default function Dashboard() {
   // Swipe state for mobile sections
   const [activeSection, setActiveSection] = useState(0);
   const sections = ['overview', 'calendar', 'sources'];
+
+  const checklist = useMemo(() => {
+    const calibration = getCalibration();
+    const calibrationTouched = Object.values(calibration).some((v) => Math.abs(v) > 0);
+    return {
+      hasSources: predictions.length >= 2,
+      hasWindow: !!window,
+      calibrationTouched,
+    };
+  }, [predictions.length, window]);
+
+  const calibrationDeltaBanner = useMemo(() => {
+    const change = getLastCalibrationChange();
+    if (!change || !window) return null;
+    const ageMs = Date.now() - new Date(change.at).getTime();
+    if (ageMs > 24 * 60 * 60 * 1000) return null;
+
+    const direction = change.next > change.previous ? 'increased' : change.next < change.previous ? 'decreased' : 'updated';
+    const sourceLabel = change.source === 'all' ? 'all sources' : change.source.replace(/-/g, ' ');
+    return `Confidence model ${direction} for ${sourceLabel}. Current unified confidence: ${window.confidence}%`;
+  }, [window]);
 
   useEffect(() => {
     trackEvent('dashboard_view');
@@ -92,6 +114,28 @@ export default function Dashboard() {
       </div>
 
       {/* Desktop: Full layout / Mobile: Active section */}
+      <div className="mb-4 rounded-xl border border-pink-200 bg-pink-50 p-4 text-sm">
+        <p className="font-semibold text-pink-800">First-run checklist</p>
+        <ul className="mt-2 space-y-1 text-pink-700">
+          <li>{checklist.hasSources ? '✅' : '⬜'} Add at least 2 prediction sources</li>
+          <li>{checklist.hasWindow ? '✅' : '⬜'} Generate a unified fertile window</li>
+          <li>{checklist.calibrationTouched ? '✅' : '⬜'} Tune source calibration in Settings</li>
+        </ul>
+      </div>
+      {calibrationDeltaBanner && (
+        <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+          <p className="font-medium">Confidence changed because calibration was updated</p>
+          <p className="mt-1">{calibrationDeltaBanner}</p>
+        </div>
+      )}
+      {predictions.length < 2 && (
+        <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+          <p className="font-medium">Increase prediction confidence</p>
+          <p className="mt-1">
+            Add at least one more source in <a className="underline" href="/import">Import</a>, then tune source weighting in <a className="underline" href="/settings">Settings</a>.
+          </p>
+        </div>
+      )}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Hero Card: Unified Fertile Window */}
         <div
