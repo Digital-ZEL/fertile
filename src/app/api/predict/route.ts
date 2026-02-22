@@ -6,8 +6,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { validateApiKey, corsHeaders, handleCors } from '../_middleware/auth';
-import { predictFromCalendar } from '@/lib/predictors/calendar';
-import { predictFromSymptoms } from '@/lib/predictors/symptoms';
 import { predictCombined, assessPredictionQuality } from '@/lib/predictors/combined';
 import type { Cycle, Observation, CervicalMucusObservation, OPKObservation, BBTObservation } from '@/types';
 import { generateId, getTimestamp } from '@/types';

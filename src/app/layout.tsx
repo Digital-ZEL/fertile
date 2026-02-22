@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   title: 'Fertile - Unified Fertility Intelligence',
   description:
     'Reconcile multiple fertile-window predictions into ONE unified window with confidence scores.',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Fertile',
+  },
 };
 
 export const viewport: Viewport = {

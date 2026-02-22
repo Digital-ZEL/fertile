@@ -67,7 +67,7 @@ const SOURCE_WEIGHTS: Record<PredictionSource, number> = {
  * Parse date string to Date object
  */
 function parseDate(dateStr: string): Date {
-  return new Date(dateStr + 'T00:00:00');
+  return new Date(dateStr + 'T00:00:00Z');
 }
 
 /**
@@ -91,7 +91,7 @@ function daysBetween(date1: string, date2: string): number {
  */
 function addDays(dateStr: string, days: number): ISODateString {
   const date = parseDate(dateStr);
-  date.setDate(date.getDate() + days);
+  date.setUTCDate(date.getUTCDate() + days);
   return formatDate(date);
 }
 

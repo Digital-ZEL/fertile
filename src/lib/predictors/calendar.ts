@@ -52,7 +52,7 @@ const DEFAULT_OPTIONS: Required<CalendarPredictorOptions> = {
  */
 function addDays(dateStr: ISODateString, days: number): ISODateString {
   const date = new Date(dateStr + 'T00:00:00Z');
-  date.setDate(date.getDate() + days);
+  date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().split('T')[0];
 }
 
