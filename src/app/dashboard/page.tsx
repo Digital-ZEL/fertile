@@ -6,7 +6,7 @@ import { usePredictions, useReconciled } from '@/hooks';
 import { Calendar, ConfidenceMeter, ConfidenceBar } from '@/components';
 import type { ISODateString } from '@/types';
 import { trackEvent } from '@/lib/analytics';
-import { getCalibration } from '@/lib/calibration';
+import { getCalibration, getLastCalibrationChange } from '@/lib/calibration';
 
 /**
  * Format date for display
@@ -55,6 +55,17 @@ export default function Dashboard() {
       calibrationTouched,
     };
   }, [predictions.length, window]);
+
+  const calibrationDeltaBanner = useMemo(() => {
+    const change = getLastCalibrationChange();
+    if (!change || !window) return null;
+    const ageMs = Date.now() - new Date(change.at).getTime();
+    if (ageMs > 24 * 60 * 60 * 1000) return null;
+
+    const direction = change.next > change.previous ? 'increased' : change.next < change.previous ? 'decreased' : 'updated';
+    const sourceLabel = change.source === 'all' ? 'all sources' : change.source.replace(/-/g, ' ');
+    return `Confidence model ${direction} for ${sourceLabel}. Current unified confidence: ${window.confidence}%`;
+  }, [window]);
 
   useEffect(() => {
     trackEvent('dashboard_view');
@@ -111,6 +122,12 @@ export default function Dashboard() {
           <li>{checklist.calibrationTouched ? '✅' : '⬜'} Tune source calibration in Settings</li>
         </ul>
       </div>
+      {calibrationDeltaBanner && (
+        <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+          <p className="font-medium">Confidence changed because calibration was updated</p>
+          <p className="mt-1">{calibrationDeltaBanner}</p>
+        </div>
+      )}
       {predictions.length < 2 && (
         <div className="mb-4 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
           <p className="font-medium">Increase prediction confidence</p>

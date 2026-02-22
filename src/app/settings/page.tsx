@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { getDB } from '@/lib/db';
-import { getCalibration, setCalibration, type SourceCalibration } from '@/lib/calibration';
+import { getCalibration, setCalibration, setLastCalibrationChange, type SourceCalibration } from '@/lib/calibration';
 import { getEventSummary, trackEvent } from '@/lib/analytics';
 import type { PredictionSource } from '@/types';
 
@@ -27,9 +27,11 @@ export default function Settings() {
   const sourceEntries = useMemo(() => SOURCES.map((s) => [s, calibration[s]] as const), [calibration]);
 
   const updateSource = (source: PredictionSource, value: number) => {
+    const prev = calibration[source] ?? 0;
     const next = { ...calibration, [source]: Number(value.toFixed(2)) };
     setLocalCalibration(next);
     setCalibration(next);
+    setLastCalibrationChange({ source, previous: prev, next: next[source], at: new Date().toISOString() });
     trackEvent('source_calibrated', { source, value: next[source] });
   };
 
@@ -133,6 +135,7 @@ export default function Settings() {
                 } as SourceCalibration;
                 setLocalCalibration(cleared);
                 setCalibration(cleared);
+                setLastCalibrationChange({ source: 'all', previous: 0, next: 0, at: new Date().toISOString() });
               }}
               className="rounded-lg border border-red-200 bg-red-50 px-6 py-3 font-semibold text-red-700 transition-colors hover:bg-red-100"
             >
